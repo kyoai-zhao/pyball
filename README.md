@@ -1,5 +1,9 @@
 # pyball
 
+[![CI](https://github.com/kyoai-zhao/pyball/actions/workflows/ci.yml/badge.svg)](https://github.com/kyoai-zhao/pyball/actions/workflows/ci.yml)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://pypi.org/project/pyball/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 Rigorous **ball / interval arithmetic** for Python: every value is an enclosure
 `[mid ± rad]` that is guaranteed to contain the true real number — including
 the rounding errors of the machine arithmetic used to compute it.
@@ -81,6 +85,28 @@ assert Ball(1.0, 0.1) > Ball(0.0, 0.5)        # whole enclosures are ordered
 assert Ball(2.0, 0.0) in Ball(0.0, 3.0)
 ```
 
+### Certified root isolation (`pyball.isolate_roots`)
+
+The interval-Newton layer finds *and proves* the zeros of a differentiable
+function on a bounded domain, using only enclosure arithmetic:
+
+```python
+from pyball import Ball, isolate_roots
+
+f = lambda b: b**3 - 3 * b        # roots at -sqrt(3), 0, +sqrt(3)
+df = lambda b: 3 * b**2 - 3
+roots = isolate_roots(f, df, -3.0, 3.0)
+for r in roots:
+    assert r.certified                     # a proven unique root, not a guess
+    assert r.interval.lo <= True_root <= r.interval.hi
+```
+
+Each returned `RootCert` carries an enclosure and a `certified` flag:
+`certified=True` is an *interval-Newton proof* of a unique zero inside the
+enclosure (walks are bisection + `N(X) = mid − f(mid)/f'(X)`); intervals that
+cannot be settled within the split budget come back as unproven candidates
+(`certified=False`). pyball never certifies a root it cannot prove.
+
 ### Certified evaluation (`pyball.certify_claim` / `prove_positive_negative`)
 
 `verify.py` turns enclosures into *provable sign certificates* by bisection:
@@ -124,7 +150,7 @@ Python package.
 
 ## Roadmap
 
-- [ ] `certify` layer: interval Newton for certified root isolation (C4 fold-in)
+- [x] `certify` layer: interval Newton for certified root isolation (C4 fold-in)
 - [ ] tighter elementary-function enclosures (argument reduction for `sin/cos`,
       Hankel/Richardson-like error control)
 - [ ] `BallArray` fast paths for transcendental ufuncs (currently scalar fallback)

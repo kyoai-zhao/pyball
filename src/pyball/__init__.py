@@ -12,6 +12,7 @@ Public API:
 """
 
 from .core import INF, NaN, Ball
+from .newton import RootCert, isolate_roots, newton_step
 from .verify import certify_claim, prove_positive_negative
 
 try:  # numpy is an optional extra
@@ -26,7 +27,10 @@ __all__ = [
     "BallArray",
     "INF",
     "NaN",
+    "RootCert",
     "certify_claim",
+    "isolate_roots",
+    "newton_step",
     "prove_positive_negative",
     "__version__",
 ]
