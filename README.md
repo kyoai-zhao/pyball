@@ -3,6 +3,9 @@
 [![CI](https://github.com/kyoai-zhao/pyball/actions/workflows/ci.yml/badge.svg)](https://github.com/kyoai-zhao/pyball/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://github.com/kyoai-zhao/pyball)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![PyPI version](https://img.shields.io/pypi/v/pyball-arithmetic.svg)](https://pypi.org/project/pyball-arithmetic/)
+
+![pyball demo](docs/pyball-demo.svg)
 
 Rigorous **ball / interval arithmetic** for Python: every value is an enclosure
 `[mid ± rad]` that is guaranteed to contain the true real number — including
