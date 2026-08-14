@@ -3,7 +3,7 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pyball"
+name = "pyball-arithmetic"
 version = "0.1.0"
 description = "Rigorous ball/interval arithmetic for Python: verified enclosures with directed rounding."
 readme = "README.md"
