@@ -1,7 +1,7 @@
 # pyball
 
 [![CI](https://github.com/kyoai-zhao/pyball/actions/workflows/ci.yml/badge.svg)](https://github.com/kyoai-zhao/pyball/actions/workflows/ci.yml)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://pypi.org/project/pyball/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://github.com/kyoai-zhao/pyball)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 Rigorous **ball / interval arithmetic** for Python: every value is an enclosure
