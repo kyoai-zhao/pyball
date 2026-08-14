@@ -59,9 +59,9 @@ sensitive to the platform's transcendental rounding** — only the enclosure
 ## Installation
 
 ```bash
-pip install pyball          # pure Python, zero required dependencies
-pip install "pyball[numpy]"  # optional: vectorized BallArray
-pip install "pyball[dev]"    # optional: test runner
+pip install pyball-arithmetic        # pure Python, zero required dependencies
+pip install "pyball-arithmetic[numpy]"  # optional: vectorized BallArray
+pip install "pyball-arithmetic[dev]"    # optional: test runner
 ```
 
 Requires Python ≥ 3.10.
