@@ -205,6 +205,30 @@ class TestTranscendentals(unittest.TestCase):
                 self.assertLessEqual(out.lo, val)
                 self.assertLessEqual(val, out.hi)
 
+    def test_sinh_encloses_far_negative_endpoint(self):
+        """Regression: sinh's Lipschitz bound must use the derivative maximum
+        over the whole enclosure, not just the upper endpoint.  On
+        ``[-10, 1]`` the derivative ``cosh`` peaks at ``-10``, not ``1``."""
+        b = Ball(-4.5, 5.5)  # [-10.000000000000002, 1.0000000000000002]
+        s = b.sinh()
+        self.assertLessEqual(s.lo, math.sinh(b.lo))
+        self.assertGreaterEqual(s.hi, math.sinh(b.hi))
+
+    def test_from_endpoints_retains_endpoints(self):
+        """Regression: repeated float rounding must not shrink the enclosure
+        and lose an endpoint, even at extreme magnitudes."""
+        cases = [
+            (2.881928889655659e-185, 4.233634802106637e-185),
+            (-1.234567890123456e200, -1.234567890123455e200),
+            (0.25, 0.25),
+            (1e-300, 2e-300),
+        ]
+        for lo, hi in cases:
+            with self.subTest(lo=repr(lo), hi=repr(hi)):
+                b = Ball._from_endpoints(lo, hi)
+                self.assertLessEqual(b.lo, lo)
+                self.assertGreaterEqual(b.hi, hi)
+
     def test_tan_pole_raises(self):
         with self.assertRaises(ValueError):
             Ball(1.5707963267948966, 1e-1).tan()

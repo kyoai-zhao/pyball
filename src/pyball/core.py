@@ -208,10 +208,13 @@ class Ball:
     def _from_endpoints(cls, lo: float, hi: float) -> "Ball":
         """Build the tightest ball enclosing [lo, hi] given outward-rounded
         endpoints (``lo <= true_lo``, ``hi >= true_hi``)."""
-        mid = (lo + hi) * 0.5
-        rad = (hi - lo) * 0.5
-        # outward round both so the enclosure can never shrink
-        return cls(_up(mid), _up(rad))
+        L, H = Fraction(lo), Fraction(hi)
+        mid = (L + H) / 2
+        m = float(mid)
+        # reach of the chosen float midpoint from each side, kept exact;
+        # rounding the radius up guarantees the enclosure never shrinks
+        rad = _up(float(max(mid - L, H - mid)))
+        return cls(m, rad)
 
     # -- arithmetic -------------------------------------------------------
     def __neg__(self) -> "Ball":
@@ -393,8 +396,8 @@ class Ball:
         return Ball(m, rad)
 
     def sinh(self) -> "Ball":
-        hi = self.hi
-        L = _up(math.cosh(hi))
+        a = max(abs(self.lo), abs(self.hi))
+        L = _up(math.cosh(a))
         m = math.sinh(_to_float(self._m))
         err = _ulp(m)
         return Ball(m, _up(L * self._r + err))
